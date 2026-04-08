@@ -134,8 +134,10 @@ img { max-width: 100%; display: block; }
    ========================================================= */
 .hero {
   position: relative;
-  height: 480px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  height: 560px;
+  background:
+    linear-gradient(135deg, rgba(10,10,10,0.72) 0%, rgba(26,26,26,0.55) 50%, rgba(10,10,10,0.85) 100%),
+    url('bulldozer.jpg') center/cover no-repeat;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -146,8 +148,16 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   background-image:
-    repeating-linear-gradient(45deg, transparent 0 40px, rgba(255,204,0,0.04) 40px 41px),
-    radial-gradient(circle at 20% 30%, rgba(255,204,0,0.15) 0%, transparent 50%);
+    repeating-linear-gradient(45deg, transparent 0 40px, rgba(255,204,0,0.06) 40px 41px),
+    radial-gradient(circle at 20% 30%, rgba(255,204,0,0.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 4px;
+  background: var(--amarillo);
 }
 .hero-content {
   position: relative;
@@ -440,8 +450,7 @@ footer ul li a:hover { color: var(--amarillo); }
 <section class="hero" id="inicio">
   <div class="hero-content">
     <div class="hero-tag">// Reportabilidad &amp; Mejora Continua</div>
-    <h1>Centro de <span>Control</span> Flota Pesada</h1>
-    <p>Reportes operacionales, financieros y de mantenimiento integrados desde Power BI en un solo panel.</p>
+    <h1>Gestión de <span>Activos</span> Pesados</h1>
   </div>
   <div class="hero-stripe"></div>
 </section>
@@ -492,9 +501,10 @@ footer ul li a:hover { color: var(--amarillo); }
   <div class="pbi-frame">
     <!-- 👇 PEGA AQUÍ EL CÓDIGO EMBED DE TU POWER BI -->
     <iframe
-      title="Reporte Financiero Flota"
-      src="https://app.powerbi.com/view?r=PEGA_AQUI_TU_LINK_EMBED"
-      allowfullscreen>
+      title="Reporte financiero flota"
+      src="https://app.powerbi.com/view?r=eyJrIjoiMWU0ZmE0MDQtMWQ4NS00NTZmLWE3OGEtNjA5MmQ2OTkyNDUxIiwidCI6IjY2YjY2NTY1LTAwYTMtNGQ3Ni1iM2NjLTZjNmFmN2JjNGEyNyJ9&pageName=25b525c4821a50458399"
+      frameborder="0"
+      allowfullscreen="true">
     </iframe>
   </div>
 </section>
