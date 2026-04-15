@@ -37,12 +37,8 @@ a { color:inherit; text-decoration:none; }
 .nav a { padding:18px 20px; font-size:13px; font-weight:500; color:var(--gris-700); white-space:nowrap; border-bottom:3px solid transparent; transition:all 0.2s; }
 .nav a:hover, .nav a.active { color:var(--negro); border-bottom-color:var(--amarillo); }
 
-/* ── PBI FRAME ── */
-.pbi-frame { position:relative; width:100%; aspect-ratio:16/9; background:var(--gris-100); border:3px solid var(--negro); box-shadow:12px 12px 0 var(--amarillo); overflow:hidden; }
-.pbi-frame iframe { width:100%; height:100%; border:0; }
-
 /* ── SECTION ── */
-.section { max-width:var(--max-width); margin:0 auto 100px; padding:0 32px; }
+.section { max-width:var(--max-width); margin:0 auto 80px; padding:0 32px; }
 .section-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:32px; padding-bottom:20px; border-bottom:2px solid var(--negro); }
 .section-head-left { max-width:700px; }
 .section-tag { display:inline-block; background:var(--negro); color:var(--amarillo); font-family:var(--font-mono); font-size:11px; letter-spacing:1.5px; padding:4px 12px; margin-bottom:12px; text-transform:uppercase; }
@@ -50,16 +46,22 @@ a { color:inherit; text-decoration:none; }
 .section-desc { margin-top:12px; color:var(--gris-700); font-size:15px; }
 .section-num { font-family:var(--font-mono); font-size:14px; color:var(--gris-500); }
 
+/* ── SHAREPOINT FRAME ── */
+.sp-frame { width:100%; height:780px; border:3px solid var(--negro); box-shadow:12px 12px 0 var(--amarillo); overflow:hidden; background:var(--gris-100); }
+.sp-frame iframe { width:100%; height:100%; border:0; }
+
+/* ── AVISO + BOTON ── */
+.sp-notice { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:24px; padding:16px 20px; background:var(--gris-100); border-left:4px solid var(--amarillo); }
+.sp-notice-text { font-size:13px; color:var(--gris-700); }
+.sp-notice-text strong { color:var(--negro); font-weight:600; }
+.btn-sp { display:inline-flex; align-items:center; gap:8px; background:var(--amarillo); color:var(--negro); font-weight:700; padding:12px 24px; border:3px solid var(--negro); text-transform:uppercase; font-size:12px; letter-spacing:1px; transition:all .15s; box-shadow:4px 4px 0 var(--negro); white-space:nowrap; flex-shrink:0; }
+.btn-sp:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--negro); }
+
 /* ── FOOTER ── */
 footer { background:var(--negro); color:var(--blanco); padding:40px 32px; margin-top:80px; }
 .footer-bottom { max-width:var(--max-width); margin:0 auto; font-family:var(--font-mono); font-size:11px; letter-spacing:1px; text-transform:uppercase; opacity:.6; text-align:center; }
 
-@media (max-width:900px) {
-  .top-links { display:none; }
-  .pbi-frame { box-shadow:6px 6px 0 var(--amarillo); }
-  .section-head { flex-direction:column; align-items:flex-start; gap:12px; }
-}
-
+/* ── PAGE HERO ── */
 .page-hero { background:var(--negro); border-bottom:4px solid var(--amarillo); padding:56px 32px; position:relative; overflow:hidden; }
 .page-hero::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(45deg,transparent 0 40px,rgba(255,204,0,.05) 40px 41px); pointer-events:none; }
 .page-hero-inner { max-width:var(--max-width); margin:0 auto; position:relative; }
@@ -71,26 +73,26 @@ footer { background:var(--negro); color:var(--blanco); padding:40px 32px; margin
 .page-hero p { font-size:16px; font-weight:300; color:rgba(255,255,255,.75); max-width:600px; }
 .page-hero-stripe { position:absolute; bottom:0; left:0; right:0; height:6px; background:repeating-linear-gradient(-45deg,var(--amarillo) 0 20px,var(--negro) 20px 40px); }
 
-.ph-wrap { max-width:var(--max-width); margin:80px auto; padding:0 32px; }
-.ph-box { border:3px solid var(--negro); background:var(--gris-100); padding:80px 48px; text-align:center; }
-.ph-num { display:inline-block; background:var(--negro); color:var(--amarillo); font-family:var(--font-mono); font-size:11px; letter-spacing:3px; text-transform:uppercase; padding:5px 16px; margin-bottom:24px; }
-.ph-title { font-family:var(--font-display); font-size:36px; text-transform:uppercase; letter-spacing:-1px; margin-bottom:16px; }
-.ph-desc { font-size:15px; color:var(--gris-700); max-width:500px; margin:0 auto 32px; }
-.ph-badge { display:inline-block; border:2px dashed var(--gris-500); font-family:var(--font-mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; padding:10px 24px; color:var(--gris-500); }
-.btn-back { display:inline-flex; align-items:center; gap:8px; background:var(--amarillo); color:var(--negro); font-weight:700; padding:14px 28px; border:3px solid var(--negro); text-transform:uppercase; font-size:13px; letter-spacing:1px; transition:all .15s; box-shadow:5px 5px 0 var(--negro); margin-top:32px; }
-.btn-back:hover { transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--negro); }
+@media (max-width:900px) {
+  .top-links { display:none; }
+  .sp-frame { height:500px; box-shadow:6px 6px 0 var(--amarillo); }
+  .section-head { flex-direction:column; align-items:flex-start; gap:12px; }
+  .sp-notice { flex-direction:column; align-items:flex-start; }
+}
 </style>
 </head>
 <body>
+
 <header class="top-bar">
   <div class="top-bar-inner">
     <div class="brand">Gerencia de Activos<small>Subgerencia de Flota Pesada</small></div>
     <nav class="top-links">
-      <a href="index.html">Página Principal</a>
+      <a href="index.html">P&aacute;gina Principal</a>
       <a href="torre-control.html">Torre de Control</a>
     </nav>
   </div>
 </header>
+
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html">Inicio</a>
@@ -102,27 +104,53 @@ footer { background:var(--negro); color:var(--blanco); padding:40px 32px; margin
     <a href="control-documental.html" class="active">Control Documental</a>
   </div>
 </nav>
+
 <div class="page-hero">
   <div class="page-hero-inner">
     <a href="index.html" class="page-hero-back">&larr; Volver al inicio</a>
-    <div class="page-hero-tag">08 / Documentación</div>
+    <div class="page-hero-tag">08 / Documentaci&oacute;n</div>
     <h1>Control <span>Documental</span></h1>
-    <p>Repositorio centralizado de manuales, certificaciones y documentación técnica de flota.</p>
+    <p>Repositorio centralizado de manuales, certificaciones y documentaci&oacute;n t&eacute;cnica de flota.</p>
   </div>
   <div class="page-hero-stripe"></div>
 </div>
-<div class="ph-wrap">
-  <div class="ph-box">
-    <div class="ph-num">08 / Documentación</div>
-    <div class="ph-title">Control Documental</div>
-    <div class="ph-desc">Repositorio centralizado de manuales, certificaciones y documentación técnica de flota. Conecta tu reporte Power BI reemplazando el <code>src</code> del iframe.</div>
-    <div class="ph-badge">Embed Power BI pendiente</div>
-    <br>
-    <a href="index.html" class="btn-back">&larr; Volver al inicio</a>
+
+<br>
+
+<section class="section" id="documental" style="margin-top:48px;">
+  <div class="section-head">
+    <div class="section-head-left">
+      <span class="section-tag">08 / Documentaci&oacute;n</span>
+      <h2>Repositorio de Documentos</h2>
+      <p class="section-desc">Carpeta 2026 &mdash; Documentaci&oacute;n de equipos Veltis en SharePoint.</p>
+    </div>
+    <div class="section-num">SharePoint &middot; 2026</div>
   </div>
-</div>
+
+  <div class="sp-notice">
+    <span class="sp-notice-text">
+      <strong>Nota:</strong> Requiere sesi&oacute;n activa con cuenta Ferrovial para visualizar el contenido.
+      Si el visor no carga, usa el bot&oacute;n para abrirlo directamente.
+    </span>
+    <a href="https://ferrovialchile-my.sharepoint.com/personal/hans_silva_veltislatam_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fhans%5Fsilva%5Fveltislatam%5Fcom%2FDocuments%2FFlota%2FDOCUMENTACION%20EQUIPOS%20VELTIS%2F2026&viewid=428ac781%2Dd27e%2D403b%2D88ac%2D3ec96f5c0de1&sharingv2=true&fromShare=true&at=9"
+       target="_blank" class="btn-sp">
+      Abrir en SharePoint &rarr;
+    </a>
+  </div>
+
+  <div class="sp-frame">
+    <iframe
+      title="Control Documental Equipos Veltis 2026"
+      src="https://ferrovialchile-my.sharepoint.com/personal/hans_silva_veltislatam_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fhans%5Fsilva%5Fveltislatam%5Fcom%2FDocuments%2FFlota%2FDOCUMENTACION%20EQUIPOS%20VELTIS%2F2026&viewid=428ac781%2Dd27e%2D403b%2D88ac%2D3ec96f5c0de1&sharingv2=true&fromShare=true&at=9"
+      frameborder="0"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+</section>
+
 <footer>
   <div class="footer-bottom">&copy; Gerencia de Activos &middot; Subgerencia de Flota Pesada</div>
 </footer>
+
 </body>
 </html>
