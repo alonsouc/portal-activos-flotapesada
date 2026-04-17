@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disponibilidad | Gerencia de Activos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --amarillo:#FFCC00; --amarillo-oscuro:#E6B800; --negro:#0a0a0a;
+  --gris-700:#2d2d2d; --gris-500:#6b6b6b; --gris-200:#e8e8e8; --gris-100:#f4f4f4;
+  --blanco:#ffffff; --verde:#22c55e; --rojo:#ef4444; --azul:#3b82f6;
+  --font-display:'Archivo Black',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --max-width:1400px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-body); color:var(--negro); background:var(--blanco); line-height:1.6; -webkit-font-smoothing:antialiased; }
+a { color:inherit; text-decoration:none; }
+
+/* ── HEADER ── */
+.top-bar { background:var(--amarillo); border-bottom:3px solid var(--negro); position:sticky; top:0; z-index:100; }
+.top-bar-inner { max-width:var(--max-width); margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.brand { font-family:var(--font-display); font-size:20px; letter-spacing:-0.5px; color:var(--negro); text-transform:uppercase; }
+.brand small { display:block; font-family:var(--font-mono); font-size:10px; font-weight:400; letter-spacing:1.5px; margin-top:2px; }
+.top-links { display:flex; gap:28px; font-weight:600; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; }
+.top-links a { position:relative; padding:4px 0; }
+.top-links a:hover::after { content:''; position:absolute; left:0; right:0; bottom:-2px; height:2px; background:var(--negro); }
+
+/* ── NAV ── */
+.nav { background:var(--blanco); border-bottom:1px solid var(--gris-200); }
+.nav-inner { max-width:var(--max-width); margin:0 auto; padding:0 32px; display:flex; gap:4px; overflow-x:auto; }
+.nav a { padding:18px 20px; font-size:13px; font-weight:500; color:var(--gris-700); white-space:nowrap; border-bottom:3px solid transparent; transition:all 0.2s; }
+.nav a:hover, .nav a.active { color:var(--negro); border-bottom-color:var(--amarillo); }
+
+/* ── HERO ── */
+.hero { position:relative; background:var(--negro); overflow:hidden; display:flex; align-items:center; justify-content:center; min-height:380px; }
+.hero::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 59px, rgba(255,204,0,.07) 59px 60px),
+    repeating-linear-gradient(90deg, transparent 0 59px, rgba(255,204,0,.07) 59px 60px),
+    radial-gradient(circle at 80% 50%, rgba(255,204,0,.15) 0%, transparent 55%);
+  pointer-events:none;
+}
+.hero::after { content:''; position:absolute; left:0; right:0; top:0; height:4px; background:var(--amarillo); }
+.hero-content { position:relative; padding:72px 32px; max-width:var(--max-width); width:100%; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:48px; flex-wrap:wrap; }
+.hero-left {}
+.hero-breadcrumb { font-family:var(--font-mono); font-size:11px; letter-spacing:2px; color:rgba(255,204,0,.6); text-transform:uppercase; margin-bottom:16px; }
+.hero-breadcrumb a { color:rgba(255,204,0,.6); }
+.hero-breadcrumb a:hover { color:var(--amarillo); }
+.hero h1 { font-family:var(--font-display); font-size:clamp(40px,6vw,76px); line-height:0.95; letter-spacing:-2.5px; text-transform:uppercase; color:var(--blanco); }
+.hero h1 span { color:var(--amarillo); display:block; }
+.hero-sub { margin-top:18px; color:rgba(255,255,255,.6); font-size:15px; max-width:500px; font-weight:300; }
+.hero-right { display:flex; gap:1px; background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.12); flex-shrink:0; }
+.hero-stat { padding:28px 36px; text-align:center; }
+.hero-stat-val { font-family:var(--font-display); font-size:44px; line-height:1; letter-spacing:-2px; color:var(--amarillo); }
+.hero-stat-lbl { font-family:var(--font-mono); font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.4); margin-top:6px; }
+.hero-stripe { position:absolute; bottom:0; left:0; right:0; height:6px; background:repeating-linear-gradient(-45deg,var(--amarillo) 0 20px,var(--negro) 20px 40px); }
+
+/* ── KPIs ── */
+.kpi-section { max-width:var(--max-width); margin:0 auto; padding:48px 32px 0; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1px; background:var(--negro); border:3px solid var(--negro); }
+.kpi { background:var(--blanco); padding:28px 24px; transition:background .2s; }
+.kpi:hover { background:var(--gris-100); }
+.kpi-label { font-family:var(--font-mono); font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gris-500); margin-bottom:10px; }
+.kpi-value { font-family:var(--font-display); font-size:42px; line-height:1; letter-spacing:-2px; }
+.kpi-value.amarillo { color:var(--amarillo-oscuro); }
+.kpi-value.verde    { color:var(--verde); }
+.kpi-value.rojo     { color:var(--rojo); }
+.kpi-value.negro    { color:var(--negro); }
+.kpi-trend { margin-top:8px; font-size:12px; font-weight:600; }
+.kpi-trend.up   { color:var(--verde); }
+.kpi-trend.down { color:var(--rojo); }
+
+/* ── SECTION ── */
+.section { max-width:var(--max-width); margin:0 auto 80px; padding:0 32px; }
+.section-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:32px; padding-bottom:20px; border-bottom:2px solid var(--negro); }
+.section-head-left { max-width:700px; }
+.section-tag { display:inline-block; background:var(--negro); color:var(--amarillo); font-family:var(--font-mono); font-size:11px; letter-spacing:1.5px; padding:4px 12px; margin-bottom:12px; text-transform:uppercase; }
+.section h2 { font-family:var(--font-display); font-size:clamp(26px,3.5vw,40px); line-height:1; letter-spacing:-1px; text-transform:uppercase; }
+.section-desc { margin-top:10px; color:var(--gris-700); font-size:15px; }
+.section-num { font-family:var(--font-mono); font-size:14px; color:var(--gris-500); flex-shrink:0; }
+
+/* ── PBI FRAME ── */
+.pbi-frame { position:relative; width:100%; aspect-ratio:16/9; background:var(--gris-100); border:3px solid var(--negro); box-shadow:12px 12px 0 var(--amarillo); overflow:hidden; }
+.pbi-frame iframe { width:100%; height:100%; border:0; }
+.pbi-frame-tall { aspect-ratio:4/3; }
+
+/* ── PLACEHOLDER (mientras se agrega el link del PBI) ── */
+.pbi-placeholder {
+  width:100%;
+  aspect-ratio:16/9;
+  background:var(--gris-100);
+  border:3px dashed var(--gris-500);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  color:var(--gris-500);
+}
+.pbi-placeholder-icon { font-size:48px; opacity:.4; }
+.pbi-placeholder-text { font-family:var(--font-mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; }
+.pbi-placeholder-hint { font-size:13px; color:var(--gris-500); margin-top:4px; }
+
+/* ── BARRA DE DISPONIBILIDAD ── */
+.disp-bars { display:grid; gap:16px; }
+.disp-row { display:grid; grid-template-columns:200px 1fr 80px; gap:16px; align-items:center; }
+.disp-label { font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+.disp-track { height:24px; background:var(--gris-200); border:2px solid var(--negro); overflow:hidden; }
+.disp-fill { height:100%; background:var(--amarillo); transition:width .6s ease; }
+.disp-fill.alto  { background:var(--verde); }
+.disp-fill.medio { background:var(--amarillo); }
+.disp-fill.bajo  { background:var(--rojo); }
+.disp-pct { font-family:var(--font-mono); font-size:13px; font-weight:600; text-align:right; }
+
+/* ── TABS ── */
+.tabs { display:flex; gap:0; border-bottom:2px solid var(--negro); margin-bottom:32px; }
+.tab { padding:14px 24px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; cursor:pointer; border:2px solid transparent; border-bottom:none; margin-bottom:-2px; transition:all .15s; background:transparent; color:var(--gris-500); }
+.tab.active { background:var(--amarillo); color:var(--negro); border-color:var(--negro); }
+.tab:hover:not(.active) { color:var(--negro); background:var(--gris-100); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* ── INFO CARD ── */
+.info-banner { background:var(--negro); color:var(--blanco); padding:32px 36px; border-left:6px solid var(--amarillo); margin-bottom:48px; display:flex; align-items:center; gap:24px; }
+.info-banner-icon { font-size:32px; flex-shrink:0; }
+.info-banner-text h4 { font-family:var(--font-display); font-size:18px; text-transform:uppercase; margin-bottom:6px; }
+.info-banner-text p { font-size:14px; opacity:.7; }
+
+/* ── FOOTER ── */
+footer { background:var(--negro); color:var(--blanco); padding:40px 32px; margin-top:80px; }
+.footer-bottom { max-width:var(--max-width); margin:0 auto; font-family:var(--font-mono); font-size:11px; letter-spacing:1px; text-transform:uppercase; opacity:.6; text-align:center; }
+
+@media (max-width:900px) {
+  .top-links { display:none; }
+  .hero-right { width:100%; }
+  .pbi-frame { box-shadow:6px 6px 0 var(--amarillo); }
+  .section-head { flex-direction:column; align-items:flex-start; gap:12px; }
+  .disp-row { grid-template-columns:1fr 60px; }
+  .disp-label { display:none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="top-bar-inner">
+    <div class="brand">Gerencia de Activos<small>Subgerencia de Flota Pesada</small></div>
+    <nav class="top-links">
+      <a href="index.html">Página Principal</a>
+      <a href="torre-control.html">Torre de Control</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html">Inicio</a>
+    <a href="visionlink.html">Visionlink</a>
+    <a href="incidentes.html">Reporte de Incidentes</a>
+    <a href="gps.html">GPS</a>
+    <a href="transporte.html">Transporte</a>
+    <a href="contratos.html">Contratos</a>
+    <a href="control-documental.html">Control Documental</a>
+    <a href="disponibilidad.html" class="active">Disponibilidad</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-breadcrumb"><a href="index.html">Inicio</a> &nbsp;/&nbsp; Disponibilidad</div>
+      <h1>Disponi-<span>bilidad</span></h1>
+      <p class="hero-sub">Monitoreo de disponibilidad mec&aacute;nica y f&iacute;sica de la flota por equipo, contrato y per&iacute;odo de an&aacute;lisis.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat">
+        <div class="hero-stat-val">94,1%</div>
+        <div class="hero-stat-lbl">Disp. Física</div>
+      </div>
+      <div class="hero-stat" style="border-left:1px solid rgba(255,255,255,.12)">
+        <div class="hero-stat-val">91,3%</div>
+        <div class="hero-stat-lbl">Disp. Mecánica</div>
+      </div>
+      <div class="hero-stat" style="border-left:1px solid rgba(255,255,255,.12)">
+        <div class="hero-stat-val">456</div>
+        <div class="hero-stat-lbl">Equipos</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stripe"></div>
+</section>
+
+<!-- KPIs -->
+<section class="kpi-section">
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Disponibilidad Física</div>
+      <div class="kpi-value verde">94,1%</div>
+      <div class="kpi-trend up">&#9650; 1,8 pts vs mes anterior</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Disponibilidad Mecánica</div>
+      <div class="kpi-value amarillo">91,3%</div>
+      <div class="kpi-trend up">&#9650; 0,9 pts vs mes anterior</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Equipos Fuera de Serv.</div>
+      <div class="kpi-value rojo">27</div>
+      <div class="kpi-trend down">&#9660; 4 vs semana pasada</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Meta Mensual</div>
+      <div class="kpi-value negro">92,0%</div>
+      <div class="kpi-trend up">&#9650; Sobre meta +2,1 pts</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Contratos Bajo Meta</div>
+      <div class="kpi-value rojo">3</div>
+      <div class="kpi-trend down">&#9660; Requieren atención</div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPACIADO -->
+<div style="height:56px;"></div>
+
+<!-- REPORTE POWER BI PRINCIPAL -->
+<section class="section" id="reporte-disponibilidad">
+  <div class="section-head">
+    <div class="section-head-left">
+      <span class="section-tag">01 / Reporte Principal</span>
+      <h2>Reporte de Disponibilidad</h2>
+      <p class="section-desc">An&aacute;lisis detallado de disponibilidad f&iacute;sica y mec&aacute;nica por equipo, tipo de m&aacute;quina, contrato y rango de fechas.</p>
+    </div>
+    <div class="section-num">PBI &middot; 003</div>
+  </div>
+
+  <!-- ╔══════════════════════════════════════════════════╗
+       ║  REEMPLAZA EL src="" CON TU LINK DE POWER BI   ║
+       ╚══════════════════════════════════════════════════╝ -->
+  <div class="pbi-frame">
+    <iframe
+      id="iframe-disponibilidad"
+      title="Reporte de Disponibilidad de Flota"
+      src=""
+      frameborder="0"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+  <!-- Mensaje visible cuando no hay src configurado -->
+  <div id="placeholder-disponibilidad" class="pbi-placeholder" style="margin-top:-3px; border-top:0; box-shadow:12px 12px 0 var(--amarillo);">
+    <div class="pbi-placeholder-icon">📊</div>
+    <div class="pbi-placeholder-text">Reporte Power BI</div>
+    <div class="pbi-placeholder-hint">Reemplaza el atributo <code>src=""</code> en el iframe con tu enlace de publicaci&oacute;n de Power BI</div>
+  </div>
+
+</section>
+
+<!-- TABS: DISPONIBILIDAD POR CATEGORÍA -->
+<section class="section" id="por-categoria">
+  <div class="section-head">
+    <div class="section-head-left">
+      <span class="section-tag">02 / Detalle</span>
+      <h2>Disponibilidad por Categoría</h2>
+      <p class="section-desc">Resumen visual del estado de disponibilidad agrupado por tipo de equipo y contrato.</p>
+    </div>
+    <div class="section-num">PBI &middot; 004</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'tab-tipo')">Por Tipo de Equipo</button>
+    <button class="tab" onclick="switchTab(this,'tab-contrato')">Por Contrato</button>
+  </div>
+
+  <div id="tab-tipo" class="tab-content active">
+    <div class="disp-bars">
+      <div class="disp-row">
+        <div class="disp-label">Bulldozers</div>
+        <div class="disp-track"><div class="disp-fill alto" style="width:96%"></div></div>
+        <div class="disp-pct">96,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Excavadoras</div>
+        <div class="disp-track"><div class="disp-fill alto" style="width:93%"></div></div>
+        <div class="disp-pct">93,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Camiones Aljibe</div>
+        <div class="disp-track"><div class="disp-fill medio" style="width:89%"></div></div>
+        <div class="disp-pct">89,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Motoniveladoras</div>
+        <div class="disp-track"><div class="disp-fill medio" style="width:91%"></div></div>
+        <div class="disp-pct">91,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Compactadores</div>
+        <div class="disp-track"><div class="disp-fill bajo" style="width:82%"></div></div>
+        <div class="disp-pct">82,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Cargadores Frontales</div>
+        <div class="disp-track"><div class="disp-fill alto" style="width:95%"></div></div>
+        <div class="disp-pct">95,0%</div>
+      </div>
+    </div>
+    <div style="margin-top:24px; display:flex; gap:20px; flex-wrap:wrap;">
+      <span style="font-size:12px; display:flex; align-items:center; gap:8px;"><span style="width:16px;height:16px;background:var(--verde);display:inline-block;border:2px solid var(--negro);"></span> &ge; 90% · Sobre meta</span>
+      <span style="font-size:12px; display:flex; align-items:center; gap:8px;"><span style="width:16px;height:16px;background:var(--amarillo);display:inline-block;border:2px solid var(--negro);"></span> 85–89% · Atenci&oacute;n</span>
+      <span style="font-size:12px; display:flex; align-items:center; gap:8px;"><span style="width:16px;height:16px;background:var(--rojo);display:inline-block;border:2px solid var(--negro);"></span> &lt; 85% · Cr&iacute;tico</span>
+    </div>
+  </div>
+
+  <div id="tab-contrato" class="tab-content">
+    <div class="disp-bars">
+      <div class="disp-row">
+        <div class="disp-label">Contrato A-01</div>
+        <div class="disp-track"><div class="disp-fill alto" style="width:97%"></div></div>
+        <div class="disp-pct">97,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Contrato A-02</div>
+        <div class="disp-track"><div class="disp-fill alto" style="width:94%"></div></div>
+        <div class="disp-pct">94,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Contrato B-01</div>
+        <div class="disp-track"><div class="disp-fill medio" style="width:88%"></div></div>
+        <div class="disp-pct">88,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Contrato B-02</div>
+        <div class="disp-track"><div class="disp-fill bajo" style="width:81%"></div></div>
+        <div class="disp-pct">81,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Contrato C-01</div>
+        <div class="disp-track"><div class="disp-fill alto" style="width:95%"></div></div>
+        <div class="disp-pct">95,0%</div>
+      </div>
+      <div class="disp-row">
+        <div class="disp-label">Contrato C-03</div>
+        <div class="disp-track"><div class="disp-fill bajo" style="width:84%"></div></div>
+        <div class="disp-pct">84,0%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPORTE SECUNDARIO (opcional) -->
+<section class="section" id="reporte-historico">
+  <div class="section-head">
+    <div class="section-head-left">
+      <span class="section-tag">03 / Histórico</span>
+      <h2>Tendencia Histórica</h2>
+      <p class="section-desc">Evoluci&oacute;n mensual de la disponibilidad de flota. Agrega aqu&iacute; un segundo reporte de Power BI si lo necesitas.</p>
+    </div>
+    <div class="section-num">PBI &middot; 005</div>
+  </div>
+
+  <!-- ╔══════════════════════════════════════════════════╗
+       ║  REEMPLAZA EL src="" CON TU LINK DE POWER BI   ║
+       ╚══════════════════════════════════════════════════╝ -->
+  <div class="pbi-frame">
+    <iframe
+      id="iframe-historico"
+      title="Tendencia Histórica de Disponibilidad"
+      src=""
+      frameborder="0"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+  <div id="placeholder-historico" class="pbi-placeholder" style="margin-top:-3px; border-top:0; box-shadow:12px 12px 0 var(--amarillo);">
+    <div class="pbi-placeholder-icon">📈</div>
+    <div class="pbi-placeholder-text">Reporte Histórico Power BI</div>
+    <div class="pbi-placeholder-hint">Reemplaza el atributo <code>src=""</code> con tu segundo enlace de publicaci&oacute;n</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-bottom">&copy; Gerencia de Activos &middot; Subgerencia de Flota Pesada</div>
+</footer>
+
+<script>
+/* ── Mostrar/ocultar placeholders según si el iframe tiene src ── */
+function checkIframes() {
+  const iframes = [
+    { frame: 'iframe-disponibilidad', ph: 'placeholder-disponibilidad' },
+    { frame: 'iframe-historico',      ph: 'placeholder-historico' }
+  ];
+  iframes.forEach(({ frame, ph }) => {
+    const f = document.getElementById(frame);
+    const p = document.getElementById(ph);
+    if (!f || !p) return;
+    if (f.src && f.src !== window.location.href && f.src !== '') {
+      f.closest('.pbi-frame').style.display = 'block';
+      p.style.display = 'none';
+    } else {
+      f.closest('.pbi-frame').style.display = 'none';
+      p.style.display = 'flex';
+    }
+  });
+}
+
+/* ── Tabs ── */
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', checkIframes);
+</script>
+</body>
+</html>
